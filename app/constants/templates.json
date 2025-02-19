@@ -1,0 +1,63 @@
+{
+  "TRIP_ITENERARY": {
+    "message": "Here is your updated trip itinerary. Let me know if you'd like any changes!",
+    "schedule": {
+      "transits": [
+        {
+          "from": "New York",
+          "to": "London",
+          "mode": "Plane",
+          "price": 750,
+          "departure": "2025-06-01T18:30:00Z",
+          "arrival": "2025-06-02T06:45:00Z"
+        },
+        {
+          "from": "London",
+          "to": "Paris",
+          "mode": "Train",
+          "price": 120,
+          "departure": "2025-06-05T09:00:00Z",
+          "arrival": "2025-06-05T11:00:00Z"
+        }
+      ],
+      "lodging": [
+        {
+          "name": "The London Grand Hotel",
+          "address": "123 Baker Street, London, UK",
+          "price": 200,
+          "check_in": "2025-06-02",
+          "check_out": "2025-06-05"
+        },
+        {
+          "name": "Paris Boutique Inn",
+          "address": "45 Rue de Rivoli, Paris, France",
+          "price": 180,
+          "check_in": "2025-06-05",
+          "check_out": "2025-06-10"
+        }
+      ],
+      "destinations": [
+        {
+          "location": "London",
+          "arrival_date": "2025-06-02",
+          "departure_date": "2025-06-05",
+          "activities": [
+            "Visit the British Museum",
+            "Explore the Tower of London",
+            "Evening Thames River cruise"
+          ]
+        },
+        {
+          "location": "Paris",
+          "arrival_date": "2025-06-05",
+          "departure_date": "2025-06-10",
+          "activities": [
+            "Tour the Louvre",
+            "Eiffel Tower visit",
+            "Seine River dinner cruise"
+          ]
+        }
+      ]
+    }
+  }
+}
