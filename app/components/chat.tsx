@@ -1,20 +1,23 @@
-import { Text, View, Button, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native";
+import { Text, View, Button, TouchableOpacity, ActivityIndicator, ScrollView, Modal } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRef, useEffect, useState } from "react";
 import { GenerateService } from "../services/generate";
+import ScheduleView from "./scheduleView";
 
 export const Chat = () => {
     // array of dialogue strings, alternates between user and bot
     const [conversation, setConversation] = useState<Array<string>>([]);
+    const [schedule, setSchedule] = useState<any>({});
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [firstRender, setFirstRender] = useState(true);
     const [updateScroll, setUpdateScroll] = useState(false);
+    const [showSchedule, setShowSchedule] = useState(false);
 
     const scrollViewRef = useRef<ScrollView>(null);
 
-    const genService = new GenerateService();
+    const genService = new GenerateService("DEEP_SEEK");
 
     useEffect(() => {
         if (firstRender) {
@@ -41,6 +44,7 @@ export const Chat = () => {
         const message = input.toString();
         genService.sendChat(conversation.join("\n"), message).then(async (response) => {
             updateConversation([message, response]);
+            setSchedule(JSON.parse(response.split("<!!>")[1]));
         });
         setInput("");
         setUpdateScroll(true);
@@ -49,6 +53,11 @@ export const Chat = () => {
 
     return (
         <View >
+            {showSchedule && 
+                <Modal style={styles.modal} animationType="fade" transparent={true} visible={showSchedule}>
+                    <ScheduleView></ScheduleView>
+                </Modal>
+            }
             <ScrollView style={styles.scrollView} ref={scrollViewRef}>
             <View style={styles.chatContainer}>
                 {loading && <ActivityIndicator size="small" color="#0000ff" />}
@@ -75,7 +84,14 @@ export const Chat = () => {
                     style={styles.inputBox}></TextInput>
                 <TouchableOpacity 
                     onPress={handleSend}
-                    style={styles.sendButton}></TouchableOpacity>
+                    style={styles.sendButton}>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                    onPress={() => setShowSchedule(true)}
+                    style={styles.sendButton}>
+                </TouchableOpacity>
+                
             </View>
         </View>
     );
@@ -90,6 +106,13 @@ const styles = {
         borderColor: "black",
         padding: 10,
         margin: 10,
+    },
+    modal: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        height: "70vh",
+        width: "80vh",
     },
     inputContainer: {
         flexDirection: "row",
